@@ -3,12 +3,12 @@ extern GetLastError : PROC
 extern ReadFile : PROC
 extern WriteFile : PROC
 extern GetStdHandle : PROC
+extern ExitProcess : PROC
 .data
 handle dq 0
 file_name db "Day 1.txt"
 bufin db 100 dup(0)
 numread dq 0
-result db 64 dup(0)
 
 .CODE
 Day1 PROC
@@ -92,8 +92,49 @@ push 0
 cmp numread, 0
 jne ReadNumber
 
-;answer in r14, gonna do output later
+mov rax, r14
+mov r14, OFFSET bufin
+add r14, 99
+mov r13, r14
+MakeAsciiCharacter:
+xor rdx, rdx
+mov rcx, 10
+idiv rcx
+add rdx, '0'
+mov [r14], dl
+dec r14
+cmp rax, 0
+jne MakeAsciiCharacter
+mov r12, OFFSET bufin
+
+MoveToBeginning:
+inc r14
+mov al, [r14]
+mov [r12], al
+inc r12
+cmp r14, r13
+jne MoveToBeginning
 xor rax, rax
+mov [r12], rax
+
+
+mov rcx, -11
+sub rsp, 8*4
+call GetStdHandle
+mov rcx, rax
+mov r13, OFFSET bufin
+sub r12, r13
+mov rdx, r13
+mov r8, r12
+add r12, r13
+add r12, 1
+mov r9, r14
+push 0
+call WriteFile
+
+add rsp, 8*5
+mov rcx, 0
+call ExitProcess
 
 Day1 ENDP
 END
