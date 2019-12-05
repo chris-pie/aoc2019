@@ -1,4 +1,13 @@
+#!/usr/bin/env swipl
 :- use_module(library(clpfd)).
+
+:- initialization(main).
+
+main([LD,LU]) :-
+    ans(LD, LU, A1, A2),
+    write(A1), write(" "), write(A2),
+    halt.
+
 
 head([H|_], H).
 
@@ -55,10 +64,6 @@ hlp(P, LU, LD):-
 set1(LU, LD, S):-
     setof(P, hlp(P, LU, LD), S).
 
-ans1(LU, LD, L):-
-    set1(LU, LD, S), length(S, L).
-
-
 ans2_check([D1,D2,D3,D4|T]):-
     D2 #= D3, D1 #\= D2, D3 #\= D4;
     ans2_check([D2,D3,D4|T]).
@@ -67,8 +72,9 @@ ans2_filter(L):-
     append([-1|L], [-1], Z),
     ans2_check(Z).
 
-ans2(LU, LD, A):-
+ans(LU, LD, A1, A2):-
     set1(LU, LD, T),
     include(ans2_filter, T, L),
-    length(L, A).
+    length(L, A2),
+    length(T, A1).
     
