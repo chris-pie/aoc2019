@@ -1,6 +1,6 @@
 #!/usr/bin/env swipl
 :- use_module(library(clpfd)).
-:initialization(main).
+:- initialization(main).
 
 main([LD,LU]) :-
     ans(LD, LU, A1, A2),
