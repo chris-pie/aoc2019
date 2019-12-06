@@ -1,6 +1,7 @@
 #!/usr/bin/env swipl
 :- use_module(library(clpfd)).
- 
+:initialization(main).
+
 main([LD,LU]) :-
     ans(LD, LU, A1, A2),
     write(A1), write(" "), write(A2),
@@ -33,14 +34,14 @@ satisfiesCriteria([D|[]], R, [_|[]], _, [_|[]], _):-
 satisfiesCriteria([D|T], R, [U|LU], UC, [DD|LD], LC):-
   
     (
-        UC,!, UCN = UC;
-        U #> D, UCN = true;
-        U #= D, UCN = UC       
+        UC, UCN = UC;
+        \+ UC, U #> D, UCN = true;
+        \+ UC,U #= D, UCN = UC       
     ),
     (
-        LC,!, LCN = LC;
-        DD #< D, LCN = true;
-        DD #= D, LCN = LC     
+        LC, LCN = LC;
+        \+ LC, DD #< D, LCN = true;
+        \+ LC, DD #= D, LCN = LC     
     ),
     head(T, N),
     D #=< N,
