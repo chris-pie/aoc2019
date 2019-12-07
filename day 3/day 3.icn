@@ -1,0 +1,95 @@
+link lists
+
+record point(x,y,t)
+
+procedure main()
+    match_letter := <R|L|D|U>
+    match_number := <[0-9]*>
+    f := open("../day 3.txt","r") | stop("cannot open file ",fn)
+    wire1_in := read(f)
+    wire1_in := wire1_in || ","
+    wire1_L := list()
+    total_length := 0
+    curr_pos := point(0,0,0)
+    put(wire1_L, curr_pos)
+    every (wire1_in ?? match_letter -> letter || match_number -> number || ",") do {
+        
+        curr_pos := case letter of {
+            "R": point(curr_pos.x + number, curr_pos.y, curr_pos.t + number)
+            "L": point(curr_pos.x - number, curr_pos.y, curr_pos.t + number)
+            "D": point(curr_pos.x, curr_pos.y - number, curr_pos.t + number)
+            "U": point(curr_pos.x, curr_pos.y + number, curr_pos.t + number)
+        }
+        put(wire1_L, curr_pos)
+
+    }
+
+    wire2_in := read(f)
+    wire2_in := wire2_in || ","
+    wire2_L := list()
+    total_length := 0
+    curr_pos := point(0,0,0)
+    put(wire2_L, curr_pos)
+    every (wire2_in ?? match_letter -> letter || match_number -> number || ",") do {
+        
+        curr_pos := case letter of {
+            "R": point(curr_pos.x + number, curr_pos.y, curr_pos.t + number)
+            "L": point(curr_pos.x - number, curr_pos.y, curr_pos.t + number)
+            "D": point(curr_pos.x, curr_pos.y - number, curr_pos.t + number)
+            "U": point(curr_pos.x, curr_pos.y + number, curr_pos.t + number)
+        }
+        put(wire2_L, curr_pos)
+    }
+    curr_meetup := point(0,0,0)
+    every i:= 1 to (*wire1_L - 1) do{
+        every j:= 1 to (*wire2_L - 1) do{
+            w11 := wire1_L[i]
+            w12 := wire1_L[i+1]
+            w21 := wire2_L[j]
+            w22 := wire2_L[j+1]
+            diff1 := if (w11.x = w12.x) then 2 else 1
+            same1 := if (w11.x = w12.x) then 1 else 2
+            diff2 := if (w21.x = w22.x) then 2 else 1
+            same2 := if (w21.x = w22.x) then 1 else 2
+            if (diff1 = diff2) then next
+            if (min(w11[diff1], w12[diff1]) <= w21[same2] <= (max(w11[diff1], w12[diff1]))) then {
+                if (min(w21[diff2], w22[diff2]) <= w11[same1] <= (max(w21[diff2], w22[diff2]))) then {
+                    if((abs(w11[same1]) + abs(w21[same2]) < curr_meetup[3]) | curr_meetup[3] = 0) then
+                    {
+                        curr_meetup := point(w11[same1], w21[same2], abs(w11[same1]) + abs(w21[same2]))
+                    }
+                }
+            }
+        }
+    }
+    write(curr_meetup[3])
+
+    curr_meetup := point(0,0,0)
+    every i:= 1 to (*wire1_L - 1) do{
+        every j:= 1 to (*wire2_L - 1) do{
+            w11 := wire1_L[i]
+            w12 := wire1_L[i+1]
+            w21 := wire2_L[j]
+            w22 := wire2_L[j+1]
+            diff1 := if (w11.x = w12.x) then 2 else 1
+            same1 := if (w11.x = w12.x) then 1 else 2
+            diff2 := if (w21.x = w22.x) then 2 else 1
+            same2 := if (w21.x = w22.x) then 1 else 2
+            if (diff1 = diff2) then next
+            if (min(w11[diff1], w12[diff1]) <= w21[same2] <= (max(w11[diff1], w12[diff1]))) then {
+                if (min(w21[diff2], w22[diff2]) <= w11[same1] <= (max(w21[diff2], w22[diff2]))) then {
+                    dist1 := w11[3] + abs(w11[diff1] - w21[same2])
+                    dist2 := w21[3] + abs(w21[diff2] - w11[same1])
+                    if((dist1 + dist2 < curr_meetup[3]) | curr_meetup[3] = 0) then
+                    {
+
+                        curr_meetup := point(w11[same1], w21[same2],dist1 + dist2)
+                    }
+                }
+            }
+        }
+    }
+    write(curr_meetup[3])
+    close(f)
+
+end
