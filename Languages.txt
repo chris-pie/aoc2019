@@ -2,3 +2,5 @@ Day 1 - ASM (x64, Windows)
 Day 2 - TCL
 Day 3 - Unicon
 Day 4 - Prolog (SWI-Prolog)
+Day 5 - Fortran 
+Day 8 - Pascal
