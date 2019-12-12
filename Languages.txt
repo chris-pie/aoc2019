@@ -4,5 +4,5 @@ Day 3 - Unicon
 Day 4 - Prolog (SWI-Prolog)
 Day 5 - Fortran 
 Day 6 - Visual Basic .NET
-Day 10 - C
 Day 8 - Pascal
+Day 10 - C
