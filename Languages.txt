@@ -6,4 +6,5 @@ Day 5 - Fortran
 Day 6 - Visual Basic .NET
 Day 7 - Go
 Day 8 - Pascal
+Day 9 - Perl6 (Raku)
 Day 10 - C
