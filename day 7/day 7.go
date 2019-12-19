@@ -132,7 +132,7 @@ func run_program(memory []int, ios *IOSimulator) {
 			var result int
 			arg1 := get_value_by_mode(memory, get_mode(modes, 1), memory[ipointer+1])
 			arg2 := get_value_by_mode(memory, get_mode(modes, 2), memory[ipointer+2])
-			if arg1 < arg2 {
+			if arg1 == arg2 {
 				result = 1
 			} else {
 				result = 0
