@@ -9,3 +9,4 @@ Day 8 - Pascal
 Day 9 - Perl6 (Raku)
 Day 10 - C
 Day 11 - Ruby
+Day 16 - Haskell
